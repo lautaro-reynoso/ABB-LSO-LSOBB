@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1695612762 source:c:\users\lautaro\onedrive\escritorio\p2-grupo14\main.c
+1695654956 source:c:\users\lautaro\onedrive\escritorio\p2-grupo14\main.c
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
@@ -29,7 +29,7 @@
 	"Envios.h"
 	<malloc.h>
 
-1695612602 c:\users\lautaro\onedrive\escritorio\p2-grupo14\lsobb.h
+1695654684 c:\users\lautaro\onedrive\escritorio\p2-grupo14\lsobb.h
 	"Envios.h"
 	<String.h>
 
