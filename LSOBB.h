@@ -13,8 +13,7 @@ typedef struct {
 }lsobb;
 
 int LocalizarLSOBB(lsobb *lista, char codigo[], int *pos) {
-
-    int inicio = 0;
+    int inicio = 0; // Límite inferior inclusivo
     int fin = lista->contador - 1;
 
     while (inicio <= fin) {
@@ -22,22 +21,21 @@ int LocalizarLSOBB(lsobb *lista, char codigo[], int *pos) {
 
         int comparacion = strcmp(lista->envios[medio].codigo, codigo);
 
-         //       printf("codigo %s , comparacion strcmp:%d\n", codigo, comparacion);
-
         if (comparacion == 0) {
-                printf("tendria que llegar al limite de envios para: envios repetidos\n");
             *pos = medio;
-            return 1;
+            return 1; // Búsqueda terminó con éxito y el código es igual (indicando que es un duplicado)
         } else if (comparacion < 0) {
             inicio = medio + 1;
         } else {
             fin = medio - 1;
         }
-
     }
 
-    return 0;
+    *pos = inicio; // Posición donde debería insertarse si no se encuentra el código
+    return 0; // La clave no se encontró en la lista
 }
+
+
 
 
 
@@ -49,6 +47,7 @@ int AltaLSOBB(lsobb *lista, Envio envio) {
     }
 
     if (LocalizarLSOBB(lista, envio.codigo, &pos)==0) {
+
         for (int i = lista->contador - 1; i >= pos; i--) {
             lista->envios[i + 1] = lista->envios[i];
         }
@@ -92,7 +91,4 @@ int evocarLSOBB(lsobb *lista, char codigo[], Envio *envio) {
         return 0;
     }
 }
-
-
-
 

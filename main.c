@@ -38,16 +38,16 @@ void mostrarestructuraLSO(lso *lista)
     printf("Total de %d envios\n", lista->contador);
 
 }
-void mostrarestructuraLSOBB(lsobb *listab)
+void mostrarestructuraLSOBB(lsobb *lista)
 {
     int i;
 
-    for(i = 0 ; i < listab->contador; i++)
+    for(i = 0 ; i < lista->contador; i++)
     {
-        mostrarenvio(listab->envios[i]);
+        mostrarenvio(lista->envios[i]);
         getchar();
     }
-    printf("Total de %d envios\n", listab->contador);
+    printf("Total de %d envios\n", lista->contador);
 
 }
 
@@ -154,7 +154,7 @@ int LecturaOperaciones(lso *lso,arbol *arbol, lsobb *lsobb)
     }
     else
     {
-        int codigoOperador, contadorEnvios=0;
+        int codigoOperador=0, contadorEnvios=0;
         while (!(feof(fp))&&contadorEnvios<=MAX_Envios)
         {
 
@@ -177,15 +177,10 @@ int LecturaOperaciones(lso *lso,arbol *arbol, lsobb *lsobb)
                 if(codigoOperador == 1)
                 {
                     //  mostrarenvio(aux);
-                    fflush(stdin);
-                    int res = altaABB(arbol,aux);
-
                     AltaLSO(lso, aux);
                     AltaLSOBB(lsobb,aux);
-                    altaABB(arbol,aux);
 
-
-
+                  altaABB(arbol,aux);
 
 
 
@@ -194,11 +189,12 @@ int LecturaOperaciones(lso *lso,arbol *arbol, lsobb *lsobb)
                 if(codigoOperador == 2)
                 {
 
-                    fflush(stdin);
 
-                    bajaABB(arbol,aux.codigo);
-                    BajaLSO(lso,aux.codigo);
-                    BajaLSOBB(lsobb,aux.codigo);
+
+                  bajaABB(arbol,aux.codigo);
+                      BajaLSOBB(lsobb,aux.codigo);
+                 BajaLSO(lso,aux.codigo);
+
 
 
 
@@ -208,7 +204,7 @@ int LecturaOperaciones(lso *lso,arbol *arbol, lsobb *lsobb)
             }
             else if (codigoOperador == 3)
             {
-                fflush(stdin);
+
                 evocar++;
 
 

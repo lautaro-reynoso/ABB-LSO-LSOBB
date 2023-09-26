@@ -33,3 +33,37 @@
 	"Envios.h"
 	<String.h>
 
+1695689308 source:c:\users\mateo\onedrive\escritorio\asd\abb-lso-lsobb\main.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<ctype.h>
+	"Envios.h"
+	"LSO.h"
+	"ABB.h"
+	"LSOBB.h"
+
+1695682745 c:\users\mateo\onedrive\escritorio\asd\abb-lso-lsobb\envios.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<ctype.h>
+
+1695689216 c:\users\mateo\onedrive\escritorio\asd\abb-lso-lsobb\lso.h
+	"Envios.h"
+	<String.h>
+
+1695682745 c:\users\mateo\onedrive\escritorio\asd\abb-lso-lsobb\abb.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<ctype.h>
+	<string.h>
+	<conio.h>
+	"Envios.h"
+	<malloc.h>
+
+1695689760 c:\users\mateo\onedrive\escritorio\asd\abb-lso-lsobb\lsobb.h
+	"Envios.h"
+	<String.h>
+

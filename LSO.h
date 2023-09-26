@@ -26,7 +26,7 @@ int Localizar(lso *lista, char codigo[], int *pos) {
     if (i < lista->contador && strcmp(lista->envios[i].codigo, codigo) == 0) {
         return 1; // es igual al c�digo buscado
     } else {
-        return 0; // es diferente}
+        return 0; // es diferente
 
     }
 }
