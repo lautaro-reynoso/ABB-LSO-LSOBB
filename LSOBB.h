@@ -13,7 +13,7 @@ typedef struct {
 }lsobb;
 
 int LocalizarLSOBB(lsobb *lista, char codigo[], int *pos) {
-    int inicio = 0; // Límite inferior inclusivo
+    int inicio = 0;
     int fin = lista->contador - 1;
 
     while (inicio <= fin) {
@@ -23,7 +23,7 @@ int LocalizarLSOBB(lsobb *lista, char codigo[], int *pos) {
 
         if (comparacion == 0) {
             *pos = medio;
-            return 1; // Búsqueda terminó con éxito y el código es igual (indicando que es un duplicado)
+            return 1;
         } else if (comparacion < 0) {
             inicio = medio + 1;
         } else {
@@ -31,8 +31,8 @@ int LocalizarLSOBB(lsobb *lista, char codigo[], int *pos) {
         }
     }
 
-    *pos = inicio; // Posición donde debería insertarse si no se encuentra el código
-    return 0; // La clave no se encontró en la lista
+    *pos = inicio; /
+    return 0;
 }
 
 
