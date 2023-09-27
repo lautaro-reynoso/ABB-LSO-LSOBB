@@ -16,16 +16,34 @@ typedef struct{
     nodo *raiz;
     nodo *pos;
     nodo *padre;
+    float eExMax, eExMed, eFrMax, eFrMed, aMax, aMed, bMax, bMed, celCont;
+    int eExCant, eFrCant, aCant, bCant;
+
 }arbol;
 void initABB(arbol *a){
     (*a).pos=NULL;
     (*a).padre=NULL;
     (*a).raiz=NULL;
+    abb->eExMax = 0;
+    abb->aMax = 0;
+    abb->bMax = 0;
+    abb->eFrMax = 0;
+    abb->bMed = 0;
+    abb->bCant = 0;
+    abb->eFrMed = 0;
+    abb->eExCant = 0;
+    abb->eFrCant = 0;
+    abb->aCant = 0;
+    abb->aMed = 0;
+    abb->eExMed = 0;
+
 }
 int localizarABB(arbol *a,char codigo[]){
+    a->celCont = 0;
     a->pos = a->raiz;
     a->padre = a->raiz;
     while((*a).pos != NULL && strcmp((*a).pos->envio.codigo, codigo)){
+            a->celCont++;
         if (strcmp((*a).pos->envio.codigo, codigo) > 0){
             (*a).padre = (*a).pos;
             (*a).pos = (*a).pos->izq;
@@ -33,6 +51,7 @@ int localizarABB(arbol *a,char codigo[]){
             (*a).padre = (*a).pos;
             (*a).pos = (*a).pos->der;
         }
+
     }
     if ((*a).pos == NULL){
         return 0;
@@ -48,23 +67,7 @@ int bajaABB(arbol *a,char codigo[]){
         nodo *aux,*padre;
         padre = (*a).pos;
         aux = a->pos;
-/*
-        printf("\nCodigo: %s \n", a->pos->envio.codigo);
-        printf("Dni receptor: %d\n",a->pos->envio.dni_receptor);
-        printf("Nombre y Apellido: %s\n",a->pos->envio.nombre);
-        printf("Direccion: %s\n",a->pos->envio.direccion);
-        printf("Dni remitente: %d\n",a->pos->envio.dni_remitente);
-        printf("Fecha de envio: %s\n",a->pos->envio.fecha_envio);
-        printf("Fecha recepcion: %s\n",a->pos->envio.fecha_recepcion);
-        printf("Nombre receptor: %s\n\n",a->pos->envio.nombre_r);
-        printf("Este es el envio que desea eliminar? (1)Si, (2)No.\n");
-        scanf("%d",&opcion);
-        while(opcion > 2 || opcion < 1){
-            printf("Ingrese una respuesta valida.\n");
-            scanf("%d",&opcion);
-        }
-        */
-        //if(opcion == 1){
+
             if ((*a).pos->izq != NULL){
                 if((*a).pos->der != NULL){//caso tiene los dos hijos
                     aux = (*a).pos->der;
@@ -125,8 +128,7 @@ int bajaABB(arbol *a,char codigo[]){
                 free(aux);
                 return 1;
             }
-       // }
-       // return 0;
+
 
     }
 

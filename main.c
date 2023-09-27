@@ -70,6 +70,8 @@ int main()
     lsobb lsobb;
     lsobb.contador=0;
 
+
+
     do
     {
         // Menú principal
