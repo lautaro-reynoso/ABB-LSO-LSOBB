@@ -6,6 +6,10 @@
 #define UNTITLED_LSO_H
 #define MAX_Envios 300
 #endif //UNTITLED_LSO_H
+
+//  float eExMax=0.0, eExMed=0.0, eFrMax=0.0, eFrMed=0.0, aMax=0.0, aMed=0.0, bMax=0.0, bMed=0.0, celCont=0.0;
+ //   int eExCant=0,eFrCant=0,aCant=0,bCant=0;
+
 char *Mayusculas(char string[]);
 typedef struct {
     Envio envios [MAX_Envios];
@@ -31,7 +35,7 @@ int LocalizarLSOBB(lsobb *lista, char codigo[], int *pos) {
         }
     }
 
-    *pos = inicio; /
+    *pos = inicio;
     return 0;
 }
 

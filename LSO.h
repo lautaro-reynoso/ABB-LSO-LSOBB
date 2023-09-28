@@ -11,44 +11,110 @@ char *Mayusculas(char string[]);
 typedef struct {
     Envio envios [MAX_Envios];
     int contador;
+  float eExMax, eExMed, eFrMax, eFrMed, aMax, aMed, bMax, bMed, celCont,tempa,tempb, eExCant,eFrCant,aCant,bCant,costo,costoEvoE,costoEvoF,tempe;
 }lso;
 
+void initLSO(lso *lista) {
+    lista->eExMax = 0.0;
+    lista->eExMed = 0.0;
+    lista->eFrMax = 0.0;
+    lista->eFrMed = 0.0;
+    lista->aMax = 0.0;
+    lista->aMed = 0.0;
+    lista->bMax = 0.0;
+    lista->bMed = 0.0;
+    lista->celCont = 0.0;
+    lista->eExCant = 0;
+    lista->eFrCant = 0;
+    lista->aCant = 0.0;
+    lista->bCant = 0.0;
+    lista->tempa = 0.0;
+      lista->tempb = 0.0;
+      lista->tempe= 0.0;
+}
+
 int Localizar(lso *lista, char codigo[], int *pos) {
+lista->costoEvoE=0.0;
+lista->costoEvoF=0.0;
+float temp =0.0;
     int i = 0;
 
-
     while (i < lista->contador && strcmp(lista->envios[i].codigo, codigo) < 0) {
-
+        temp++;
         i++;
     }
 
     *pos = i;
     if (i < lista->contador && strcmp(lista->envios[i].codigo, codigo) == 0) {
-        return 1; // es igual al c�digo buscado
+
+
+
+            if(lista->eExMax<temp){
+                lista->eExMax = temp;
+      }
+
+       lista->eExCant++;
+       lista->costoEvoE+=temp;
+       lista->tempe+=lista->costoEvoE;
+       lista->eExMed = lista->tempe/(lista->eExCant+1);
+
+        return 1;
     } else {
-        return 0; // es diferente
+
+
+
+      if(lista->eFrMax<temp){
+                lista->eFrMax = temp;
+      }
+
+       lista->eFrCant++;
+       lista->costoEvoF+=temp;
+       lista->eFrMed = lista->tempe/(lista->eFrCant+1);
+
+
+
+        return 0;
 
     }
+
 }
 
 
 int AltaLSO(lso *lista, Envio envio) {
-    int pos;
-
+    lista->costo =0.0;
+    int pos,temp=0;
     int i;
     if(lista->contador == MAX_Envios){
         return 2;
     }
     int res = Localizar(lista, envio.codigo, &pos);
-
     if (res == 0) {
-
         for (i = lista->contador-1; i >= pos; i--) {
+            lista->costo++; //corrimiento
+
             lista->envios[i + 1] = lista->envios[i];
         }
         lista->envios[pos] = envio;
-
         lista->contador++;
+
+
+if (lista->costo > lista->aMax) {
+
+    lista->aMax = lista->costo; //maximo
+
+   // printf("%f\n",lista->aMax);
+
+}
+
+
+  lista->tempa+=lista->costo; //promedio
+
+ lista->aMed=lista->tempa/(lista->aCant+1);
+
+lista->aCant++; //cantidad de altas
+
+//printf("%d\n",lista->corr);
+
         return 0;
     } else {
 
@@ -57,9 +123,8 @@ int AltaLSO(lso *lista, Envio envio) {
     }
 
 }
-
 int BajaLSO(lso *lista, char eliminar_codigo[]) {
-
+ lista->costo =0.0;
 
     int conf;
 
@@ -69,108 +134,43 @@ int BajaLSO(lso *lista, char eliminar_codigo[]) {
 
     int localizar_resultado = Localizar(lista, eliminar_codigo, &pos);
     if (localizar_resultado) {
-        //   printf("El envio a eliminar es: \n");
-        //     mostrarenvio(lista->envios[pos]);
-
-
-
-//printf("Desea eliminar el envio seleccionado? 1-Si, 2-No:\n");
-// scanf("%d",&conf);
-
-
-        // if(conf==1){
-
-        for (i = pos; i <= lista->contador-1; i++) {
+        for (i = pos; i < lista->contador-1; i++) {
+                        lista->costo++; //corrimiento
             lista->envios[i] = lista->envios[i + 1];
         }
 
-        // Actualiza pos para reflejar el cambio despu�s de la eliminaci�n
-        pos = pos - 1;
-
-        lista->contador--; // Decrementa el contador
-
-        return 0; // �xito en la eliminaci�n
 
 
-        //  }   else{
+        lista->contador--;
+
+
+     if (lista->costo > lista->bMax) {
+
+    lista->bMax = lista->costo; //maximo
+
+}
+
+  lista->tempb+=lista->costo; //promedio
+
+
+ lista->bMed=lista->tempb/(lista->bCant+1);
+
+
+lista->bCant++; //cantidad de bajas
+
+        return 0;
+
 
 
     }else {
-        return 1; // Env�o no encontrado
-    }
-
-
-
-}
-
-
-
-
-int Modificar(lso *lista) {
-    char codigo_a_m[7];
-    printf("Ingrese el codigo para modificar: ");
-    scanf("%s", codigo_a_m);
-
-    int pos;
-    int localizar = Localizar(lista, Mayusculas(codigo_a_m), &pos);
-
-    if (localizar == 1) {
-        printf("Envio encontrado. Seleccione el campo a modificar:\n");
-        printf("1. DNI Receptor\n");
-        printf("2. Nombre y apellido del receptor:\n");
-        printf("3. Direccion\n");
-        printf("4. DNI Remitente\n");
-        printf("5. Nombre y apellido del Remitente\n");
-        printf("6. Fecha de Envio\n");
-        printf("7. Fecha de Recepcion\n");
-        printf("8. Salir sin hacer cambios\n");
-
-        int opcion;
-        scanf("%d", &opcion);
-
-        switch (opcion) {
-            case 1:
-                printf("Ingrese el nuevo DNI receptor: ");
-                scanf("%d", &lista->envios[pos].dni_receptor);
-                break;
-            case 2:
-                printf("Ingrese el nuevo nombre: ");
-                scanf(" %[^\n]", lista->envios[pos].nombre);
-                break;
-            case 3:
-                printf("Ingrese la nueva direccion: ");
-                scanf(" %[^\n]", lista->envios[pos].direccion);
-                break;
-            case 4:
-                printf("Ingrese el nuevo DNI remitente: ");
-                scanf("%d", &lista->envios[pos].dni_remitente);
-                break;
-            case 5:
-                printf("Ingrese el nuevo nombre del remitente: ");
-                scanf(" %[^\n]", lista->envios[pos].nombre_r);
-                break;
-            case 6:
-                printf("Ingrese la nueva fecha de envio: ");
-                scanf(" %[^\n]", lista->envios[pos].fecha_envio);
-                break;
-            case 7:
-                printf("Ingrese la nueva fecha de recepcion: ");
-                scanf(" %[^\n]", lista->envios[pos].fecha_recepcion);
-                break;
-            case 8:
-                printf("No se realizaron cambios.\n");
-                return 1;
-            default:
-                printf("Opci�n no v�lida.\n");
-                return 1;
-        }
-        return 0;
-    } else {
         return 1;
     }
-}
-int evocarLSO (lso *lista, char codigo[], Envio *envio){
 
+
+
+}
+
+int evocarLSO (lso *lista, char codigo[], Envio *envio){
     int pos;
     int res = Localizar(lista,codigo,&pos);
     if (res == 1){

@@ -63,12 +63,15 @@ int main()
 
     lso lso;
     lso.contador=0;
+    initLSO(&lso);
 
     arbol a;
     initABB(&a);
 
+
     lsobb lsobb;
     lsobb.contador=0;
+
 
 
 
@@ -86,6 +89,10 @@ int main()
         case 1:
             system("cls");
             LecturaOperaciones(&lso, &a, &lsobb);
+
+
+         printf("%f , %f , %f , %f , %f, %f, %f , %f\n",lso.aMax, lso.aMed , lso.bMax, lso.bMed, lso.eExMax , lso.eExMed, lso.eFrMax, lso.eFrMed);
+
 
 
             break;

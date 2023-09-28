@@ -7,6 +7,8 @@
 #include <conio.h>
 #include "Envios.h"
 #include <malloc.h>
+
+
 typedef struct Nodo{
     Envio envio;
     struct Nodo *der;
@@ -17,25 +19,25 @@ typedef struct{
     nodo *pos;
     nodo *padre;
     float eExMax, eExMed, eFrMax, eFrMed, aMax, aMed, bMax, bMed, celCont;
-    int eExCant, eFrCant, aCant, bCant;
+    int eExCant,eFrCant,aCant,bCant;
 
 }arbol;
 void initABB(arbol *a){
     (*a).pos=NULL;
     (*a).padre=NULL;
     (*a).raiz=NULL;
-    abb->eExMax = 0;
-    abb->aMax = 0;
-    abb->bMax = 0;
-    abb->eFrMax = 0;
-    abb->bMed = 0;
-    abb->bCant = 0;
-    abb->eFrMed = 0;
-    abb->eExCant = 0;
-    abb->eFrCant = 0;
-    abb->aCant = 0;
-    abb->aMed = 0;
-    abb->eExMed = 0;
+    a->eExMax = 0;
+    a->aMax = 0;
+    a->bMax = 0;
+    a->eFrMax = 0;
+    a->bMed = 0;
+    a->bCant = 0;
+    a->eFrMed = 0;
+    a->eExCant = 0;
+    a->eFrCant = 0;
+    a->aCant = 0;
+    a->aMed = 0;
+    a->eExMed=0;
 
 }
 int localizarABB(arbol *a,char codigo[]){
