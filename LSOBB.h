@@ -40,6 +40,8 @@ void initLSOBB(lso *lista) {
 
 
 int LocalizarLSOBB(lsobb *lista, char codigo[], int *pos, int p) {
+
+
     lista->costoEvoE=0.0;
 lista->costoEvoF=0.0;
     float temp =0.0;
@@ -102,6 +104,8 @@ lista->costoEvoF=0.0;
 
 
 int AltaLSOBB(lsobb *lista, Envio envio) {
+
+
        lista->costo =0.0;
     int pos;
 
@@ -160,11 +164,10 @@ int BajaLSOBB(lsobb *lista, Envio envio) {
                    lista->costo++; //corrimiento
             lista->envios[i] = lista->envios[i + 1];
         }
+
+           pos--;
         lista->contador--;
-        pos--;
 
-
-            lista->contador--;
 
 
      if (lista->costo > lista->bMax) {

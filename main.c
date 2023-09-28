@@ -74,7 +74,7 @@ int main()
     lsobb.contador=0;
     initLSOBB(&lsobb);
 
-
+    LecturaOperaciones(&lso, &a, &lsobb);
 
     do
     {
@@ -89,18 +89,16 @@ int main()
         {
             case 1:
                 system("cls");
-                LecturaOperaciones(&lso, &a, &lsobb);
+
 
                 printf("\n         AltaMax | AltaMed | BajaMax | BajaMed | Max.Ev.Ex | Med.Ev.Ex | Max.Ev.Fr | Med.Ev.Fr|\n");
-
-                printf("LSO   :: %.2f   |   %.2f  |  %.2f |   %.2f  |   %.2f |  %.2f     | %.2f      |   %.2f   | \n",lso.aMax, lso.aMed, lso.bMax, lso.bMed, lso.eExMax, lso.eExMed, lso.eFrMax, lso.eFrMed);
-
-                printf("LSOBB :: %.2f   |   %.2f   |  %.2f  |  %.2f  |   %.2f |   %.2f    |   %.2f   |   %.2f     | \n",lsobb.aMax, lsobb.aMed, lsobb.bMax, lsobb.bMed, lsobb.eExMax, lsobb.eExMed, lsobb.eFrMax, lsobb.eFrMed);
-
-
-                printf("ABB   :: %.2f    |   %.2f   |  %.2f   |   %.2f   |   %.2f   |   %.2f   |   %.2f    |   %.2f     | \n",a.aMax, a.aMed, a.bMax, a.bMed, a.eExMax, a.eExMed, a.eFrMax, a.eFrMed);
-
-
+                printf("-----------------------------------------------------------------------------------------------\n");
+                printf("LSO   :: %.2f   |   %.2f |  %.2f  |  %.2f  |   %.2f   |  %.2f    |  %.2f    |  %.2f   | \n",lso.aMax, lso.aMed, lso.bMax, lso.bMed, lso.eExMax, lso.eExMed, lso.eFrMax, lso.eFrMed);
+                 printf("-----------------------------------------------------------------------------------------------\n");
+                printf("LSOBB :: %.2f   |   %.2f |  %.2f  |  %.2f  |    %.2f   |   %.2f    |   %.2f    |   %.2f   | \n",lsobb.aMax, lsobb.aMed, lsobb.bMax, lsobb.bMed, lsobb.eExMax, lsobb.eExMed, lsobb.eFrMax, lsobb.eFrMed);
+                 printf("-----------------------------------------------------------------------------------------------\n");
+                printf("ABB   ::  %.2f   |    %.2f |   %.2f  |   %.2f  |   %.2f   |   %.2f    |  %.2f    |   %.2f   | \n",a.aMax, a.aMed, a.bMax, a.bMed, a.eExMax, a.eExMed, a.eFrMax, a.eFrMed);
+                printf("-----------------------------------------------------------------------------------------------\n");
                 break;
             case 2:
 
@@ -162,7 +160,7 @@ int LecturaOperaciones(lso *lso,arbol *arbol, lsobb *lsobb)
     Envio aux;
     FILE* fp;
 
-    if ((fp = fopen(/*"Operaciones-Envios.txt"*/"C:/Users/lautaro/OneDrive/Escritorio/UNIVERSIDAD/EDA/peron/Operaciones-Envios.txt", "r")) == NULL)
+    if ((fp = fopen(/*"Operaciones-Envios.txt"*/"Operaciones-Envios.txt", "r")) == NULL)
     {
         printf("No se pudo abrir el archivo");
         return 0;
