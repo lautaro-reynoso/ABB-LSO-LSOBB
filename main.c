@@ -71,7 +71,7 @@ int main()
 
     lsobb lsobb;
     lsobb.contador=0;
-
+    initLSOBB(&lsobb);
 
 
 
@@ -92,7 +92,11 @@ int main()
 
 
         printf("%f , %f , %f , %f , %f, %f, %f , %f\n",lso.aMax, lso.aMed , lso.bMax, lso.bMed, lso.eExMax , lso.eExMed, lso.eFrMax, lso.eFrMed);
-        printf("xd : %f\n , %f , %f , %f , %f, %f, %f , %f\n",a.aMax, a.aMed , lso.bMax, lso.bMed, lso.eExMax , lso.eExMed, lso.eFrMax, lso.eFrMed);
+
+        printf("%f , %f , %f , %f , %f, %f, %f , %f\n",lsobb.aMax, lsobb.aMed , lsobb.bMax, lsobb.bMed, lsobb.eExMax , lsobb.eExMed, lsobb.eFrMax, lsobb.eFrMed);
+
+
+    //    printf("%f, %f , %f , %f , %f, %f, %f , %f\n",a.aMax, a.aMed , lso.bMax, lso.bMed, lso.eExMax , lso.eExMed, lso.eFrMax, lso.eFrMed);
 
 
             break;
@@ -219,9 +223,8 @@ int LecturaOperaciones(lso *lso,arbol *arbol, lsobb *lsobb)
                 evocar++;
 
 
-             //   Envio envioaux;
-           //     aux = evocarLSO(lso,aux.codigo,&envioaux);
-
+               evocarLSO(lso,aux.codigo,&aux);
+                evocarLSOBB(lsobb,aux.codigo,&aux);
 
             }
             else

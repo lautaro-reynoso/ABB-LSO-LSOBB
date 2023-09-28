@@ -11,7 +11,7 @@ char *Mayusculas(char string[]);
 typedef struct {
     Envio envios [MAX_Envios];
     int contador;
-  float eExMax, eExMed, eFrMax, eFrMed, aMax, aMed, bMax, bMed, celCont,tempa,tempb, eExCant,eFrCant,aCant,bCant,costo,costoEvoE,costoEvoF,tempe;
+  float eExMax, eExMed, eFrMax, eFrMed, aMax, aMed, bMax, bMed, celCont,tempa,tempb, eExCant,eFrCant,aCant,bCant,costo,costoEvoE,costoEvoF,tempe,tempef;
 }lso;
 
 void initLSO(lso *lista) {
@@ -31,9 +31,10 @@ void initLSO(lso *lista) {
     lista->tempa = 0.0;
       lista->tempb = 0.0;
       lista->tempe= 0.0;
+      lista->tempef= 0.0;
 }
 
-int Localizar(lso *lista, char codigo[], int *pos) {
+int Localizar(lso *lista, char codigo[], int *pos, int p) {
 lista->costoEvoE=0.0;
 lista->costoEvoF=0.0;
 float temp =0.0;
@@ -48,30 +49,35 @@ float temp =0.0;
     if (i < lista->contador && strcmp(lista->envios[i].codigo, codigo) == 0) {
 
 
+    if(p==0){
 
             if(lista->eExMax<temp){
                 lista->eExMax = temp;
       }
-
        lista->eExCant++;
        lista->costoEvoE+=temp;
        lista->tempe+=lista->costoEvoE;
        lista->eExMed = lista->tempe/(lista->eExCant+1);
+
+       }
+
 
         return 1;
     } else {
 
 
 
+    if(p==0){
       if(lista->eFrMax<temp){
                 lista->eFrMax = temp;
       }
 
        lista->eFrCant++;
        lista->costoEvoF+=temp;
-       lista->eFrMed = lista->tempe/(lista->eFrCant+1);
+        lista->tempef+=lista->costoEvoF;
+       lista->eFrMed = lista->tempef/(lista->eFrCant+1);
 
-
+    }
 
         return 0;
 
@@ -87,7 +93,7 @@ int AltaLSO(lso *lista, Envio envio) {
     if(lista->contador == MAX_Envios){
         return 2;
     }
-    int res = Localizar(lista, envio.codigo, &pos);
+    int res = Localizar(lista, envio.codigo, &pos,1);
     if (res == 0) {
         for (i = lista->contador-1; i >= pos; i--) {
             lista->costo++; //corrimiento
@@ -132,7 +138,7 @@ int BajaLSO(lso *lista,Envio envio) {
 
     int pos, i;
 
-    int localizar_resultado = Localizar(lista, envio.codigo , &pos);
+    int localizar_resultado = Localizar(lista, envio.codigo , &pos,1);
 
     if( (strcmp(lista->envios[pos].direccion , envio.direccion)==0) && (lista->envios[pos].dni_receptor == envio.dni_receptor)
            && (lista->envios[pos].dni_remitente == envio.dni_remitente) && (strcmp(lista->envios[pos].fecha_envio,envio.fecha_envio)==0)
@@ -164,6 +170,8 @@ int BajaLSO(lso *lista,Envio envio) {
 
 lista->bCant++; //cantidad de bajas
 
+
+
         return 0;
 
     }
@@ -178,7 +186,7 @@ lista->bCant++; //cantidad de bajas
 
 int evocarLSO (lso *lista, char codigo[], Envio *envio){
     int pos;
-    int res = Localizar(lista,codigo,&pos);
+    int res = Localizar(lista,codigo,&pos,0);
     if (res == 1){
         (*envio)= lista->envios[pos];
         return 1;// se
