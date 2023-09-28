@@ -66,9 +66,15 @@ int AltaLSOBB(lsobb *lista, Envio envio) {
 }
 
 
-int BajaLSOBB(lsobb *lista, char eliminar_codigo[]) {
+int BajaLSOBB(lsobb *lista, Envio envio) {
     int pos, i;
-    int encontrado = LocalizarLSOBB(lista, eliminar_codigo, &pos);
+    int encontrado = LocalizarLSOBB(lista, envio.codigo, &pos);
+
+    if( (strcmp(lista->envios[pos].direccion , envio.direccion)==0) && (lista->envios[pos].dni_receptor == envio.dni_receptor)
+           && (lista->envios[pos].dni_remitente == envio.dni_remitente) && (strcmp(lista->envios[pos].fecha_envio,envio.fecha_envio)==0)
+           && (strcmp(lista->envios[pos].fecha_recepcion,envio.fecha_recepcion)==0) && (strcmp(lista->envios[pos].nombre,envio.nombre)==0)
+           && (strcmp(lista->envios[pos].nombre_r,envio.nombre_r)==0)){
+
     if (encontrado) {
         for (i = pos; i < lista->contador - 1; i++) {
             lista->envios[i] = lista->envios[i + 1];
@@ -79,6 +85,8 @@ int BajaLSOBB(lsobb *lista, char eliminar_codigo[]) {
     } else {
         return 1;
     }
+           }
+           return 0;
 }
 
 

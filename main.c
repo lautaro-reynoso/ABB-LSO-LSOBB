@@ -91,8 +91,8 @@ int main()
             LecturaOperaciones(&lso, &a, &lsobb);
 
 
-         printf("%f , %f , %f , %f , %f, %f, %f , %f\n",lso.aMax, lso.aMed , lso.bMax, lso.bMed, lso.eExMax , lso.eExMed, lso.eFrMax, lso.eFrMed);
-
+        printf("%f , %f , %f , %f , %f, %f, %f , %f\n",lso.aMax, lso.aMed , lso.bMax, lso.bMed, lso.eExMax , lso.eExMed, lso.eFrMax, lso.eFrMed);
+        printf("xd : %f\n , %f , %f , %f , %f, %f, %f , %f\n",a.aMax, a.aMed , lso.bMax, lso.bMed, lso.eExMax , lso.eExMed, lso.eFrMax, lso.eFrMed);
 
 
             break;
@@ -200,9 +200,11 @@ int LecturaOperaciones(lso *lso,arbol *arbol, lsobb *lsobb)
 
 
 
-                  bajaABB(arbol,aux.codigo);
-                      BajaLSOBB(lsobb,aux.codigo);
-                 BajaLSO(lso,aux.codigo);
+                bajaABB(arbol,aux);
+
+                    BajaLSOBB(lsobb,aux);
+
+                 BajaLSO(lso,aux);
 
 
 

@@ -18,7 +18,7 @@ typedef struct{
     nodo *raiz;
     nodo *pos;
     nodo *padre;
-    float eExMax, eExMed, eFrMax, eFrMed, aMax, aMed, bMax, bMed, celCont;
+    float eExMax, eExMed, eFrMax, eFrMed, aMax, aMed, bMax, bMed, celCont,costoAcum;
     int eExCant,eFrCant,aCant,bCant;
 
 }arbol;
@@ -38,6 +38,7 @@ void initABB(arbol *a){
     a->aCant = 0;
     a->aMed = 0;
     a->eExMed=0;
+    a->costoAcum = 0.0;
 
 }
 int localizarABB(arbol *a,char codigo[]){
@@ -61,11 +62,16 @@ int localizarABB(arbol *a,char codigo[]){
         return 1;
     }
 }
-int bajaABB(arbol *a,char codigo[]){
-    if (localizarABB(a,codigo)== 0){
+int bajaABB(arbol *a,Envio envio){
+
+    if (localizarABB(a,envio.codigo)== 0){
         return 2;
     }else{
-        int opcion,s=0;
+        if( (strcmp(a->pos->envio.direccion , envio.direccion)==0) && (a->pos->envio.dni_receptor == envio.dni_receptor)
+           && (a->pos->envio.dni_remitente == envio.dni_remitente) && (strcmp(a->pos->envio.fecha_envio,envio.fecha_envio)==0)
+           && (strcmp(a->pos->envio.fecha_recepcion,envio.fecha_recepcion)==0) && (strcmp(a->pos->envio.nombre,envio.nombre)==0)
+           && (strcmp(a->pos->envio.nombre_r,envio.nombre_r)==0)){
+                int opcion,s=0;
         nodo *aux,*padre;
         padre = (*a).pos;
         aux = a->pos;
@@ -132,11 +138,17 @@ int bajaABB(arbol *a,char codigo[]){
             }
 
 
+
+            }
+            return 0;
+
+
     }
 
 }
 
 int altaABB(arbol *a,Envio envio){
+    float temporal = 0.0;
 
     if (localizarABB(a,envio.codigo)==0){
         nodo *nuevo_nodo;
@@ -144,23 +156,54 @@ int altaABB(arbol *a,Envio envio){
         if(nuevo_nodo==NULL){
             return 2;//no hay espacio
         }else{
+
+            (*a).aCant++;
             nuevo_nodo->envio=envio;
             nuevo_nodo->der=NULL;
             nuevo_nodo->izq=NULL;
+
             if((*a).padre==NULL){
                 (*a).padre=nuevo_nodo;
                 (*a).pos=(*a).padre;
                 (*a).raiz=(*a).padre;
+
+                temporal++;
+                (*a).aCant++;
+                if((*a).aMax<temporal){
+                (*a).aMax=temporal;
+
+                }
+                //media
+                (*a).costoAcum += temporal;
+                (*a).aMed = (*a).costoAcum/((*a).aCant);
+
                 return 1;
             }else if (strcmp((*a).padre->envio.codigo, envio.codigo) < 0){
-
                 (*a).padre->der=nuevo_nodo;
+                temporal++;
+                (*a).aCant++;
+                if((*a).aMax<temporal){
+                (*a).aMax=temporal;
+                }
+                //media
+                (*a).costoAcum += temporal;
+                (*a).aMed = (*a).costoAcum/((*a).aCant);
                 return 1;
             }else{
 
                 (*a).padre->izq=nuevo_nodo;
+                temporal++;
+                (*a).aCant++;
+                if((*a).aMax<temporal){
+                (*a).aMax=temporal;
+                }
+                //media
+                (*a).costoAcum += temporal;
+                (*a).aMed = (*a).costoAcum/((*a).aCant);
                 return 1;
             }
+
+            //printf("\n s: %.2f",(*a).aMed);
         }
     }else{
         return 0;

@@ -123,7 +123,7 @@ lista->aCant++; //cantidad de altas
     }
 
 }
-int BajaLSO(lso *lista, char eliminar_codigo[]) {
+int BajaLSO(lso *lista,Envio envio) {
  lista->costo =0.0;
 
     int conf;
@@ -132,7 +132,13 @@ int BajaLSO(lso *lista, char eliminar_codigo[]) {
 
     int pos, i;
 
-    int localizar_resultado = Localizar(lista, eliminar_codigo, &pos);
+    int localizar_resultado = Localizar(lista, envio.codigo , &pos);
+
+    if( (strcmp(lista->envios[pos].direccion , envio.direccion)==0) && (lista->envios[pos].dni_receptor == envio.dni_receptor)
+           && (lista->envios[pos].dni_remitente == envio.dni_remitente) && (strcmp(lista->envios[pos].fecha_envio,envio.fecha_envio)==0)
+           && (strcmp(lista->envios[pos].fecha_recepcion,envio.fecha_recepcion)==0) && (strcmp(lista->envios[pos].nombre,envio.nombre)==0)
+           && (strcmp(lista->envios[pos].nombre_r,envio.nombre_r)==0)){
+
     if (localizar_resultado) {
         for (i = pos; i < lista->contador-1; i++) {
                         lista->costo++; //corrimiento
@@ -160,7 +166,7 @@ lista->bCant++; //cantidad de bajas
 
         return 0;
 
-
+    }
 
     }else {
         return 1;
