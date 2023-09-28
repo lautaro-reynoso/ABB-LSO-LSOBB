@@ -1,3 +1,4 @@
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -86,65 +87,66 @@ int main()
         scanf("%d", &opcion);
         switch (opcion)
         {
-        case 1:
-            system("cls");
-            LecturaOperaciones(&lso, &a, &lsobb);
+            case 1:
+                system("cls");
+                LecturaOperaciones(&lso, &a, &lsobb);
+
+                printf("\n         AltaMax | AltaMed | BajaMax | BajaMed | Max.Ev.Ex | Med.Ev.Ex | Max.Ev.Fr | Med.Ev.Fr|\n");
+
+                printf("LSO   :: %.2f   |   %.2f  |  %.2f |   %.2f  |   %.2f |  %.2f     | %.2f      |   %.2f   | \n",lso.aMax, lso.aMed, lso.bMax, lso.bMed, lso.eExMax, lso.eExMed, lso.eFrMax, lso.eFrMed);
+
+                printf("LSOBB :: %.2f   |   %.2f   |  %.2f  |  %.2f  |   %.2f |   %.2f    |   %.2f   |   %.2f     | \n",lsobb.aMax, lsobb.aMed, lsobb.bMax, lsobb.bMed, lsobb.eExMax, lsobb.eExMed, lsobb.eFrMax, lsobb.eFrMed);
 
 
-        printf("%f , %f , %f , %f , %f, %f, %f , %f\n",lso.aMax, lso.aMed , lso.bMax, lso.bMed, lso.eExMax , lso.eExMed, lso.eFrMax, lso.eFrMed);
-
-        printf("%f , %f , %f , %f , %f, %f, %f , %f\n",lsobb.aMax, lsobb.aMed , lsobb.bMax, lsobb.bMed, lsobb.eExMax , lsobb.eExMed, lsobb.eFrMax, lsobb.eFrMed);
+                printf("ABB   :: %.2f    |   %.2f   |  %.2f   |   %.2f   |   %.2f   |   %.2f   |   %.2f    |   %.2f     | \n",a.aMax, a.aMed, a.bMax, a.bMed, a.eExMax, a.eExMed, a.eFrMax, a.eFrMed);
 
 
-    //    printf("%f, %f , %f , %f , %f, %f, %f , %f\n",a.aMax, a.aMed , lso.bMax, lso.bMed, lso.eExMax , lso.eExMed, lso.eFrMax, lso.eFrMed);
+                break;
+            case 2:
 
 
-            break;
-        case 2:
-
-
-            system("cls");
-            do
-            {
-                mostrarSubmenu();
-                printf("Seleccione una opcion: ");
-                scanf("%d", &submenu_opcion);
-                switch (submenu_opcion)
+                system("cls");
+                do
                 {
-                case 1:
-                    system("cls");
+                    mostrarSubmenu();
+                    printf("Seleccione una opcion: ");
+                    scanf("%d", &submenu_opcion);
+                    switch (submenu_opcion)
+                    {
+                        case 1:
+                            system("cls");
 
-                    printf("Lista Secuencial Ordenada:\n");
-                    mostrarestructuraLSO(&lso);
-                    break;
-                case 2:
-                    system("cls");
-                    printf("Lista Secuencial Ordenada con Busqueda Binaria (LSOBB):\n");
-                    mostrarestructuraLSOBB(&lsobb);
+                            printf("Lista Secuencial Ordenada:\n");
+                            mostrarestructuraLSO(&lso);
+                            break;
+                        case 2:
+                            system("cls");
+                            printf("Lista Secuencial Ordenada con Busqueda Binaria (LSOBB):\n");
+                            mostrarestructuraLSOBB(&lsobb);
 
-                    break;
-                case 3:
-                    system("cls");
-                    printf("Arbol Binario de Busqueda (orden ascendente):\n");
-                    preOrden(a.raiz);
-                    break;
-                case 4:
-                    system("cls");
-                    // Volver
-                    break;
-                default:
-                    printf("Opcion no valida. Intente de nuevo.\n");
+                            break;
+                        case 3:
+                            system("cls");
+                            printf("Arbol Binario de Busqueda (orden ascendente):\n");
+                            preOrden(a.raiz);
+                            break;
+                        case 4:
+                            system("cls");
+                            // Volver
+                            break;
+                        default:
+                            printf("Opcion no valida. Intente de nuevo.\n");
+                    }
                 }
-            }
-            while (submenu_opcion != 4);
+                while (submenu_opcion != 4);
 
-            break;
-        case 3:
-            system("cls");
-            printf("Saliendo de la aplicacion.\n");
-            break;
-        default:
-            printf("Opcion no valida. Intente de nuevo.\n");
+                break;
+            case 3:
+                system("cls");
+                printf("Saliendo de la aplicacion.\n");
+                break;
+            default:
+                printf("Opcion no valida. Intente de nuevo.\n");
         }
     }
     while (opcion != 3);
@@ -160,7 +162,7 @@ int LecturaOperaciones(lso *lso,arbol *arbol, lsobb *lsobb)
     Envio aux;
     FILE* fp;
 
-    if ((fp = fopen("Operaciones-Envios.txt", "r")) == NULL)
+    if ((fp = fopen(/*"Operaciones-Envios.txt"*/"C:/Users/lautaro/OneDrive/Escritorio/UNIVERSIDAD/EDA/peron/Operaciones-Envios.txt", "r")) == NULL)
     {
         printf("No se pudo abrir el archivo");
         return 0;
@@ -193,7 +195,7 @@ int LecturaOperaciones(lso *lso,arbol *arbol, lsobb *lsobb)
                     AltaLSO(lso, aux);
                     AltaLSOBB(lsobb,aux);
 
-                  altaABB(arbol,aux);
+                    altaABB(arbol,aux);
 
 
 
@@ -204,11 +206,11 @@ int LecturaOperaciones(lso *lso,arbol *arbol, lsobb *lsobb)
 
 
 
-                bajaABB(arbol,aux);
+                    bajaABB(arbol,aux);
 
                     BajaLSOBB(lsobb,aux);
 
-                 BajaLSO(lso,aux);
+                    BajaLSO(lso,aux);
 
 
 
@@ -222,9 +224,10 @@ int LecturaOperaciones(lso *lso,arbol *arbol, lsobb *lsobb)
 
                 evocar++;
 
-
-               evocarLSO(lso,aux.codigo,&aux);
+                int exito=0;
+                evocarLSO(lso,aux.codigo,&aux);
                 evocarLSOBB(lsobb,aux.codigo,&aux);
+                evocacionABB(arbol,aux.codigo,&exito);
 
             }
             else

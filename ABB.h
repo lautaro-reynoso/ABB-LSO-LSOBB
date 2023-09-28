@@ -9,20 +9,25 @@
 #include <malloc.h>
 
 
-typedef struct Nodo{
+
+typedef struct Nodo
+{
     Envio envio;
     struct Nodo *der;
     struct Nodo *izq;
-}nodo;
-typedef struct{
+} nodo;
+typedef struct
+{
     nodo *raiz;
     nodo *pos;
     nodo *padre;
-    float eExMax, eExMed, eFrMax, eFrMed, aMax, aMed, bMax, bMed, celCont,costoAcum;
-    int eExCant,eFrCant,aCant,bCant;
+    float eExMax, eExMed, eFrMax, eFrMed, aMax, aMed, bMax, bMed, celCont,costoAcum, costobajatemp, costobajaacum;
+    float eExCant,eFrCant,aCant,bCant;
+    float costoacumEF,costoacumEE;
 
-}arbol;
-void initABB(arbol *a){
+} arbol;
+void initABB(arbol *a)
+{
     (*a).pos=NULL;
     (*a).padre=NULL;
     (*a).raiz=NULL;
@@ -39,47 +44,90 @@ void initABB(arbol *a){
     a->aMed = 0;
     a->eExMed=0;
     a->costoAcum = 0.0;
-
+    a->costoacumEF = 0;
+    a->costoacumEE = 0;
+    a->costobajatemp = 0;
+    a->costobajaacum = 0;
 }
-int localizarABB(arbol *a,char codigo[]){
+int localizarABB(arbol *a,char codigo[], int f)
+{
+
     a->celCont = 0;
+    //a->eFrMax = 0;
     a->pos = a->raiz;
     a->padre = a->raiz;
-    while((*a).pos != NULL && strcmp((*a).pos->envio.codigo, codigo)){
-            a->celCont++;
-        if (strcmp((*a).pos->envio.codigo, codigo) > 0){
+    while((*a).pos != NULL && strcmp((*a).pos->envio.codigo, codigo))
+    {
+        a->celCont++;
+        if (strcmp((*a).pos->envio.codigo, codigo) > 0)
+        {
             (*a).padre = (*a).pos;
             (*a).pos = (*a).pos->izq;
-        }else{
+        }
+        else
+        {
             (*a).padre = (*a).pos;
             (*a).pos = (*a).pos->der;
         }
 
     }
     if ((*a).pos == NULL){
+        if(f == 2){
+
+            if(a->celCont > a->eFrMax){
+                a->eFrMax = a->celCont;
+            }
+                a->eFrCant++;
+                a->costoacumEF += a->celCont;
+                a->eFrMed = a->costoacumEF/(a->eFrCant);
+        }
+
         return 0;
     }else{
+        if(f == 2){
+            if(a->celCont > a->eExMax){
+                a->eExMax =a->celCont+1;
+            }
+                a->eExCant++;
+                a->costoacumEE += a->celCont;
+                a->eExMed = a->costoacumEE/(a->eExCant);
+        }
+
         return 1;
     }
 }
-int bajaABB(arbol *a,Envio envio){
+int bajaABB(arbol *a,Envio envio)
+{
 
-    if (localizarABB(a,envio.codigo)== 0){
+    a->costobajatemp = 0;
+
+    if (localizarABB(a,envio.codigo,0)== 0)
+    {
         return 2;
-    }else{
-        if( (strcmp(a->pos->envio.direccion , envio.direccion)==0) && (a->pos->envio.dni_receptor == envio.dni_receptor)
-           && (a->pos->envio.dni_remitente == envio.dni_remitente) && (strcmp(a->pos->envio.fecha_envio,envio.fecha_envio)==0)
-           && (strcmp(a->pos->envio.fecha_recepcion,envio.fecha_recepcion)==0) && (strcmp(a->pos->envio.nombre,envio.nombre)==0)
-           && (strcmp(a->pos->envio.nombre_r,envio.nombre_r)==0)){
-                int opcion,s=0;
-        nodo *aux,*padre;
-        padre = (*a).pos;
-        aux = a->pos;
+    }
+    else
+    {
+        if( (strcmp(a->pos->envio.direccion, envio.direccion)==0) && (a->pos->envio.dni_receptor == envio.dni_receptor)
+            && (a->pos->envio.dni_remitente == envio.dni_remitente) && (strcmp(a->pos->envio.fecha_envio,envio.fecha_envio)==0)
+            && (strcmp(a->pos->envio.fecha_recepcion,envio.fecha_recepcion)==0) && (strcmp(a->pos->envio.nombre,envio.nombre)==0)
+            && (strcmp(a->pos->envio.nombre_r,envio.nombre_r)==0))
+        {
+            int opcion,s=0;
+            nodo *aux,*padre;
+            padre = (*a).pos;
+            aux = a->pos;
 
-            if ((*a).pos->izq != NULL){
-                if((*a).pos->der != NULL){//caso tiene los dos hijos
+
+
+
+            if ((*a).pos->izq != NULL)
+            {
+
+                if((*a).pos->der != NULL) //caso tiene los dos hijos
+                {
                     aux = (*a).pos->der;
-                    while(aux->izq != NULL){
+                    while(aux->izq != NULL)
+                    {
                         s++;
                         padre = aux;
                         aux = aux->izq;
@@ -87,90 +135,151 @@ int bajaABB(arbol *a,Envio envio){
                     if(s == 0 )
                     {
                         padre->der = aux->der;
+
                     }
                     else
                     {
                         padre->izq = aux->der;
-                    }
 
+                    }
+                    a->costobajatemp+= 1.5;
+                    a->costobajaacum += 1.5;
+
+                    if((*a).bMax < a->costobajatemp){
+                        (*a).bMax = a->costobajatemp;
+                    }
                     (*a).pos->envio = aux->envio;
                     free(aux);
+                    (*a).bCant++;
+                    (*a).bMed = a->costobajaacum/((*a).bCant);
                     return 1;
                 }
-                else{//caso tiene hijo izq
+                else //caso tiene hijo izq
+                {
                     aux = (*a).pos->izq;
                     if((*a).padre->izq == (*a).pos)
                         (*a).padre->izq = aux;
+
                     else if((*a).padre->der == (*a).pos)
                         (*a).padre->der = aux;
+
                     else
                         (*a).raiz = aux;
+                    a->costobajatemp+= 1;
+                    a->costobajaacum ++;
+                    if((*a).bMax < a->costobajatemp){
+                        (*a).bMax = a->costobajatemp;
+                    }
                     free(((*a).pos));
+                    (*a).bCant++;
+                    (*a).bMed = a->costobajaacum/((*a).bCant);
                     return 1;
                 }
             }
-            else if((*a).pos->der != NULL){//caso tiene hijo derecho
+            else if((*a).pos->der != NULL) //caso tiene hijo derecho
+            {
                 aux = (*a).pos->der;
+
                 if((*a).padre->izq == (*a).pos)
                     (*a).padre->izq = aux;
+
                 else if((*a).padre->der == (*a).pos)
                     (*a).padre->der = aux;
+
                 else
                     (*a).raiz = aux;
+                a->costobajatemp+= 1;
+                a->costobajaacum ++;
 
+                if((*a).bMax < a->costobajatemp){
+                    (*a).bMax = a->costobajatemp;
+                }
                 free(((*a).pos));
+                (*a).bCant++;
+                (*a).bMed = a->costobajaacum/((*a).bCant);
                 return 1;
             }
-            else if((*a).padre == (*a).pos){
+            else if((*a).padre == (*a).pos)
+            {
                 (*a).raiz = NULL;
+                a->costobajatemp+= 1;
+                a->costobajaacum ++;
+                if((*a).bMax < a->costobajatemp){
+                    (*a).bMax = a->costobajatemp;
+                }
                 free(aux);
+                (*a).bCant++;
+                (*a).bMed = a->costobajaacum/((*a).bCant);
                 return 1;
             }
-            else if((*a).padre->izq == (*a).pos){//no tiene hijos
+            else if((*a).padre->izq == (*a).pos) //no tiene hijos
+            {
                 (*a).padre->izq = NULL;
+                a->costobajatemp+= 1;
+                a->costobajaacum ++;
+                if((*a).bMax < a->costobajatemp){
+                    (*a).bMax = a->costobajatemp;
+                }
                 free(aux);
+                (*a).bCant++;
+                (*a).bMed = a->costobajaacum/((*a).bCant);
                 return 1;
             }
-            else{
+            else
+            {
                 (*a).padre->der = NULL;
+                a->costobajatemp+= 1;
+                a->costobajaacum ++;
+                if((*a).bMax < a->costobajatemp){
+                    (*a).bMax = a->costobajatemp;
+                }
                 free(aux);
+                (*a).bCant++;
+                (*a).bMed = a->costobajaacum/((*a).bCant);
                 return 1;
             }
 
 
 
-            }
-            return 0;
+        }
+        return 0;
 
 
     }
 
 }
 
-int altaABB(arbol *a,Envio envio){
+int altaABB(arbol *a,Envio envio)
+{
     float temporal = 0.0;
 
-    if (localizarABB(a,envio.codigo)==0){
+    if (localizarABB(a,envio.codigo,0)==0)
+    {
         nodo *nuevo_nodo;
         nuevo_nodo=(nodo*)malloc(sizeof(nodo));
-        if(nuevo_nodo==NULL){
+        if(nuevo_nodo==NULL)
+        {
             return 2;//no hay espacio
-        }else{
+        }
+        else
+        {
 
             (*a).aCant++;
             nuevo_nodo->envio=envio;
             nuevo_nodo->der=NULL;
             nuevo_nodo->izq=NULL;
 
-            if((*a).padre==NULL){
+            if((*a).padre==NULL)
+            {
                 (*a).padre=nuevo_nodo;
                 (*a).pos=(*a).padre;
                 (*a).raiz=(*a).padre;
 
-                temporal++;
+                temporal+= 0.5;
                 (*a).aCant++;
-                if((*a).aMax<temporal){
-                (*a).aMax=temporal;
+                if((*a).aMax<temporal)
+                {
+                    (*a).aMax=temporal;
 
                 }
                 //media
@@ -178,24 +287,30 @@ int altaABB(arbol *a,Envio envio){
                 (*a).aMed = (*a).costoAcum/((*a).aCant);
 
                 return 1;
-            }else if (strcmp((*a).padre->envio.codigo, envio.codigo) < 0){
+            }
+            else if (strcmp((*a).padre->envio.codigo, envio.codigo) < 0)
+            {
                 (*a).padre->der=nuevo_nodo;
-                temporal++;
+                temporal+= 0.5;
                 (*a).aCant++;
-                if((*a).aMax<temporal){
-                (*a).aMax=temporal;
+                if((*a).aMax<temporal)
+                {
+                    (*a).aMax=temporal;
                 }
                 //media
                 (*a).costoAcum += temporal;
                 (*a).aMed = (*a).costoAcum/((*a).aCant);
                 return 1;
-            }else{
+            }
+            else
+            {
 
                 (*a).padre->izq=nuevo_nodo;
-                temporal++;
+                temporal+= 0.5;
                 (*a).aCant++;
-                if((*a).aMax<temporal){
-                (*a).aMax=temporal;
+                if((*a).aMax<temporal)
+                {
+                    (*a).aMax=temporal;
                 }
                 //media
                 (*a).costoAcum += temporal;
@@ -203,24 +318,33 @@ int altaABB(arbol *a,Envio envio){
                 return 1;
             }
 
-            //printf("\n s: %.2f",(*a).aMed);
+
         }
-    }else{
+    }
+    else
+    {
         return 0;
     }
 }
 
-Envio evocacionABB(arbol a,char codigo[],int *exito){
-    *exito=localizarABB(&a,codigo);
-    if(*exito==1){
-        return a.pos->envio;
+int evocacionABB(arbol *a,char codigo[],int *exito)
+{
+
+    *exito=localizarABB(a,codigo,2);
+    if(*exito==1)
+    {
+        return 1;
     }
 }
 
 
-void preOrden(nodo *a){
-    if( a == NULL){
-    }else{
+void preOrden(nodo *a)
+{
+    if( a == NULL)
+    {
+    }
+    else
+    {
         printf("\nCodigo: %s \n", a->envio.codigo);
         printf("Dni receptor: %d\n",a->envio.dni_receptor);
         printf("Nombre y Apellido: %s\n",a->envio.nombre);
@@ -229,18 +353,23 @@ void preOrden(nodo *a){
         printf("Fecha de envio: %s\n",a->envio.fecha_envio);
         printf("Fecha recepcion: %s\n",a->envio.fecha_recepcion);
         printf("Nombre receptor: %s\n\n",a->envio.nombre_r);
-        if( a->izq != NULL ){
+        if( a->izq != NULL )
+        {
             printf("\nEl Codigo de su hijo izquierdo es: %s",a->izq->envio.codigo);
-        }else{
+        }
+        else
+        {
             printf("\nNo tiene hijo izquierdo.");
         }
 
-        if(a->der != NULL){
+        if(a->der != NULL)
+        {
             printf("\nEl Codigo de su hijo derecho es: %s",a->der->envio.codigo);
-        }else
+        }
+        else
             printf("\nNo tiene hijo derecho.");
         printf("\n*********************************************\n");
-        //getchar();
+        getchar();
         preOrden(a->izq);
         preOrden(a->der);
     }

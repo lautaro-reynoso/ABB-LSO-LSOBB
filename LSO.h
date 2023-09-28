@@ -168,6 +168,7 @@ int BajaLSO(lso *lista,Envio envio) {
  lista->bMed=lista->tempb/(lista->bCant+1);
 
 
+
 lista->bCant++; //cantidad de bajas
 
 

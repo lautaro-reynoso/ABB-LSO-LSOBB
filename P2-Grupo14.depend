@@ -169,3 +169,37 @@
 	"Envios.h"
 	<String.h>
 
+1695881395 source:c:\users\lautaro\onedrive\escritorio\x\abb-lso-lsobb\main.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<ctype.h>
+	"Envios.h"
+	"LSO.h"
+	"ABB.h"
+	"LSOBB.h"
+
+1695869770 c:\users\lautaro\onedrive\escritorio\x\abb-lso-lsobb\envios.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<ctype.h>
+
+1695881444 c:\users\lautaro\onedrive\escritorio\x\abb-lso-lsobb\lso.h
+	"Envios.h"
+	<String.h>
+
+1695881353 c:\users\lautaro\onedrive\escritorio\x\abb-lso-lsobb\abb.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<ctype.h>
+	<string.h>
+	<conio.h>
+	"Envios.h"
+	<malloc.h>
+
+1695881556 c:\users\lautaro\onedrive\escritorio\x\abb-lso-lsobb\lsobb.h
+	"Envios.h"
+	<String.h>
+
