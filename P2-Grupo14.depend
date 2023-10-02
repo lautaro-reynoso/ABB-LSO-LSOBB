@@ -101,7 +101,7 @@
 	"Envios.h"
 	<String.h>
 
-1695910286 source:c:\users\mateo\onedrive\escritorio\abb-lso-lsobb\main.c
+1695911862 source:c:\users\mateo\onedrive\escritorio\abb-lso-lsobb\main.c
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
@@ -117,11 +117,11 @@
 	<string.h>
 	<ctype.h>
 
-1695910183 c:\users\mateo\onedrive\escritorio\abb-lso-lsobb\lso.h
+1695915489 c:\users\mateo\onedrive\escritorio\abb-lso-lsobb\lso.h
 	"Envios.h"
 	<String.h>
 
-1695910183 c:\users\mateo\onedrive\escritorio\abb-lso-lsobb\abb.h
+1696282060 c:\users\mateo\onedrive\escritorio\abb-lso-lsobb\abb.h
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
@@ -131,7 +131,7 @@
 	"Envios.h"
 	<malloc.h>
 
-1695910784 c:\users\mateo\onedrive\escritorio\abb-lso-lsobb\lsobb.h
+1695915451 c:\users\mateo\onedrive\escritorio\abb-lso-lsobb\lsobb.h
 	"Envios.h"
 	<String.h>
 

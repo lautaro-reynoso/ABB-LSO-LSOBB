@@ -51,7 +51,6 @@ void initABB(arbol *a)
 }
 int localizarABB(arbol *a,char codigo[], int f)
 {
-
     a->celCont = 0;
     //a->eFrMax = 0;
     a->pos = a->raiz;
@@ -73,7 +72,6 @@ int localizarABB(arbol *a,char codigo[], int f)
     }
     if ((*a).pos == NULL){
         if(f == 2){
-
             if(a->celCont > a->eFrMax){
                 a->eFrMax = a->celCont;
             }
@@ -86,7 +84,7 @@ int localizarABB(arbol *a,char codigo[], int f)
     }else{
         if(f == 2){
             if(a->celCont > a->eExMax){
-                a->eExMax =a->celCont+1;
+                a->eExMax =a->celCont;
             }
                 a->eExCant++;
                 a->costoacumEE += a->celCont;

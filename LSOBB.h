@@ -130,7 +130,7 @@ if (lista->costo > lista->aMax) {
 
     lista->aMax = lista->costo; //maximo
 
-   // printf("%f\n",lista->aMax);
+
 
 }
 
@@ -143,7 +143,7 @@ lista->aCant++; //cantidad de altas
 
         return 0;
     } else {
-    //    printf("envio repetido\n");
+
         return 1;
     }
 }
